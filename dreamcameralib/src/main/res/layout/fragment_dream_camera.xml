@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/bg_camera">
+
+    <RelativeLayout
+        android:id="@+id/fragment_top_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!--返回上一级-->
+        <ImageView
+            android:id="@+id/hyf_fragment_recorder_video_iv_close"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_margin="16dp"
+            android:padding="5dp"
+            android:src="@drawable/ic_arrow_back_black_24dp"
+            tools:ignore="ContentDescription" />
+
+    </RelativeLayout>
+
+    <!--底部布局-->
+    <RelativeLayout
+        android:id="@+id/fragment_bottom_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+        <ImageView
+            android:id="@+id/fragment_ic_left"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="16dp"
+            android:padding="5dp"
+            android:src="@drawable/ic_arrow_back_black_24dp"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/hyf_fragment_recorder_video_ib_flash"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical|start"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:padding="5dp"
+            android:src="@drawable/ic_arrow_back_black_24dp"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/hyf_fragment_recorder_video_ib_switch"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="center_vertical|start"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_arrow_back_black_24dp"
+            tools:ignore="ContentDescription" />
+    </RelativeLayout>
+
+</RelativeLayout>
