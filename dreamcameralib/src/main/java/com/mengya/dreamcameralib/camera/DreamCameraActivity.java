@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.mengya.dreamcameralib.R;
+import com.mengya.dreamcameralib.camera.listener.CameraOrientationListener;
 import com.mengya.dreamcameralib.camera.utils.CommonUtils;
 
 /**
@@ -13,6 +14,7 @@ import com.mengya.dreamcameralib.camera.utils.CommonUtils;
  * create by fengwenhua at 2019-10-29 12:58:30
  */
 public class DreamCameraActivity extends AppCompatActivity {
+    private CameraOrientationListener orientationListener;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -24,6 +26,13 @@ public class DreamCameraActivity extends AppCompatActivity {
                     .replace(R.id.layout_dream_camera,DreamCameraFragment.getInstance(1))
                     .commit();
         }
+    }
+
+    public int getOrientation() {
+        if (orientationListener != null) {
+            return orientationListener.getOrientation();
+        }
+        return 0;
     }
 
 
