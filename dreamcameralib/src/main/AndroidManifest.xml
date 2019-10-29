@@ -13,6 +13,7 @@
         <activity
             android:name="com.mengya.dreamcameralib.camera.DreamCameraActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme"/>
     </application>
 </manifest>

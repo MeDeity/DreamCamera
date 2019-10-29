@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.mengya.dreamcameralib.R;
+import com.mengya.dreamcameralib.camera.utils.CommonUtils;
 
 /**
  * 自定义相机类
@@ -17,6 +18,12 @@ public class DreamCameraActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dream_camera);
+        CommonUtils.configFullScreen(DreamCameraActivity.this);//全屏模式
+        if(null==savedInstanceState){
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.layout_dream_camera,DreamCameraFragment.getInstance(1))
+                    .commit();
+        }
     }
 
 
