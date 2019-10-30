@@ -2,6 +2,7 @@ package com.mengya.dreamcameralib.camera;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,7 +34,10 @@ public class DreamCameraFragment extends Fragment implements DreamCameraCallback
 
     ///前置相机还是后置相机
     public static final String MODE = "MODE";
-    private String mFileSavePath = "test";
+    //保存地址
+    public static final String SAVE_PATH = "SAVE_PATH";
+
+    private String mFileSavePath;
     private CameraSurfaceView mCameraSurfaceView;
     private ImageView fragment_take_photo;
 
@@ -42,9 +46,13 @@ public class DreamCameraFragment extends Fragment implements DreamCameraCallback
     private int mode;
     private DreamCameraController mDreamCameraController;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public static DreamCameraFragment getInstance(int mode,String mFileSavePath) {
+        Bundle args = new Bundle();
+        args.putInt(MODE, mode);
+        args.putString(SAVE_PATH, mFileSavePath);
+        DreamCameraFragment fragment = new DreamCameraFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     private void initViews(View view) {
@@ -86,13 +94,7 @@ public class DreamCameraFragment extends Fragment implements DreamCameraCallback
                 .commit();
     }
 
-    public static DreamCameraFragment getInstance(int mode) {
-        Bundle args = new Bundle();
-        args.putInt(MODE, mode);
-        DreamCameraFragment fragment = new DreamCameraFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
+
 
     @Override
     public void takePhotoResult(final File photo) {

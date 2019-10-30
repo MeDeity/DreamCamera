@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         btn_take_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DreamCameraHelper.startTakePhoto(MainActivity.this,1000,"");
+                DreamCameraHelper.startTakePhoto(MainActivity.this,1000,"","");
             }
         });
     }

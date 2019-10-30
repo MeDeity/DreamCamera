@@ -12,7 +12,7 @@
 
         <!--返回上一级-->
         <ImageView
-            android:id="@+id/hyf_fragment_recorder_video_iv_close"
+            android:id="@+id/fragment_iv_close"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentStart="true"
@@ -40,18 +40,18 @@
             tools:ignore="ContentDescription" />
 
         <ImageView
-            android:id="@+id/hyf_fragment_recorder_video_ib_flash"
+            android:id="@+id/iv_take_photo_success"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center_vertical|start"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:padding="5dp"
-            android:src="@drawable/ic_arrow_back_black_24dp"
+            android:src="@drawable/ic_luzhi_wancheng"
             tools:ignore="ContentDescription" />
 
         <ImageView
-            android:id="@+id/hyf_fragment_recorder_video_ib_switch"
+            android:id="@+id/fragment_iv_switch"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentEnd="true"
