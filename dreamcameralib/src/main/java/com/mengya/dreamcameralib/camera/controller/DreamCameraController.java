@@ -9,7 +9,8 @@ import android.os.Build;
 import android.view.SurfaceHolder;
 
 import com.mengya.dreamcameralib.camera.DreamCameraActivity;
-import com.mengya.dreamcameralib.camera.callback.ErrorCallback;
+import com.mengya.dreamcameralib.camera.callback.DreamCameraCallback;
+import com.mengya.dreamcameralib.camera.callback.TakePhotoCallback;
 import com.mengya.dreamcameralib.camera.utils.CommonUtils;
 import com.mengya.dreamcameralib.camera.widget.CameraSurfaceView;
 
@@ -17,6 +18,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * 相机控制类
+ * create by fengwenhua at 2019-10-30 15:11:31
+ */
 public class DreamCameraController implements IDreamCameraController {
     private int previewWidth = 640;//预览宽
     private int previewHeight = 480;//预览高
@@ -35,6 +40,7 @@ public class DreamCameraController implements IDreamCameraController {
     private SurfaceHolder mSurfaceHolder;
     private int mCameraId;//摄像头方向id
     private boolean mIsPreviewing;  //是否预览
+    private DreamCameraCallback callback;
 
     private SurfaceHolder.Callback surfaceCallBack = new SurfaceHolder.Callback() {
         @Override
@@ -79,10 +85,11 @@ public class DreamCameraController implements IDreamCameraController {
         }
     };
 
-    public DreamCameraController(Activity mActivity,String mFileSavePath, CameraSurfaceView cameraSurfaceView) {
+    public DreamCameraController(Activity mActivity,String mFileSavePath, CameraSurfaceView cameraSurfaceView,DreamCameraCallback callback) {
         this.mActivity = mActivity;
         this.mFileSavePath = mFileSavePath;
         this.cameraSurfaceView = cameraSurfaceView;
+        this.callback = callback;
         this.cameraSurfaceView.setCustomSize(true);
         mSurfaceHolder = this.cameraSurfaceView.getHolder();
         mSurfaceHolder.addCallback(surfaceCallBack);
@@ -107,6 +114,7 @@ public class DreamCameraController implements IDreamCameraController {
             @Override
             public void onPictureTaken(byte[] data, Camera camera) {
                 try {
+                    isTakeing = true;
                     int orientation = ((DreamCameraActivity) mActivity).getOrientation();
                     Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);// 将图片保存在 DIRECTORY_DCIM 内存卡中
                     Matrix matrix = new Matrix();
@@ -117,14 +125,24 @@ public class DreamCameraController implements IDreamCameraController {
                         matrix.setRotate(90 + orientation);
                     }
                     bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-                    CommonUtils.saveBitmap2File(bitmap, mFileSavePath, "test.jpg", new ErrorCallback() {
+                    CommonUtils.saveBitmap2File(bitmap, mFileSavePath, "test.jpg", new TakePhotoCallback() {
+                        @Override
+                        public void result(File mFile) {
+                            isTakeing = false;
+                            if (callback != null) {
+                                callback.takePhotoResult(mFile);
+                            }
+                        }
+
                         @Override
                         public void error(Exception e) {
+                            isTakeing = false;
                             e.printStackTrace();
                         }
                     });
-                    isTakeing = false;
+
                 } catch (Exception e) {
+                    isTakeing = false;
                     e.printStackTrace();
                 }
             }
@@ -144,9 +162,6 @@ public class DreamCameraController implements IDreamCameraController {
         parameters.setPreviewSize(previewWidth, previewHeight);
         parameters.setPictureSize(pictureWidth, pictureHeight);
         parameters.setJpegQuality(100);
-        if (Build.VERSION.SDK_INT < 9) {
-            return;
-        }
         List<String> supportedFocus = parameters.getSupportedFocusModes();
         boolean isHave = supportedFocus == null ? false :
                 supportedFocus.indexOf(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO) >= 0;

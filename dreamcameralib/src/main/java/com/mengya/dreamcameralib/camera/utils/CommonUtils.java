@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.mengya.dreamcameralib.camera.callback.ErrorCallback;
+import com.mengya.dreamcameralib.camera.callback.TakePhotoCallback;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -36,7 +36,7 @@ public class CommonUtils {
     }
 
     //Bitmap转File 工具类
-    public static void saveBitmap2File(Bitmap bitmap, String mFilePath, String fileName, ErrorCallback callback){
+    public static void saveBitmap2File(Bitmap bitmap, String mFilePath, String fileName, TakePhotoCallback callback){
         try {
             File mediaStorageDir = new File(mFilePath);
             if (!mediaStorageDir.exists()) {
@@ -47,6 +47,7 @@ public class CommonUtils {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
             stream.flush();
             stream.close();
+            callback.result(mediaFile);
         }catch (Exception e){
             callback.error(e);
         }
