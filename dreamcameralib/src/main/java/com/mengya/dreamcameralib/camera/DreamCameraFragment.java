@@ -75,6 +75,7 @@ public class DreamCameraFragment extends Fragment implements DreamCameraCallback
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Bundle bundle = getArguments();
         mode = bundle.getInt(MODE, 0);
+        mFileSavePath = bundle.getString(SAVE_PATH);
         View view = inflater.inflate(R.layout.fragment_dream_camera, container, false);
         initViews(view);
         initParams();
