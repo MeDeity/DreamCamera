@@ -14,8 +14,17 @@ import com.mengya.dreamcameralib.camera.utils.CommonUtils;
 import com.mengya.dreamcameralib.camera.widget.CameraSurfaceView;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
 public class DreamCameraController implements IDreamCameraController {
+    private int previewWidth = 640;//预览宽
+    private int previewHeight = 480;//预览高
+    private int pictureWidth = 1920; // 拍照宽
+    private int pictureHeight = 1080; // 拍照高
+    public static final int FLASH_MODE_OFF = 0;
+    public static final int FLASH_MODE_ON = 1;
+    public int flashType = FLASH_MODE_OFF;
 
     private Camera mCamera;//camera对象
     private boolean isTakeing;
@@ -70,7 +79,7 @@ public class DreamCameraController implements IDreamCameraController {
         }
     };
 
-    public DreamCameraController(String mFileSavePath, CameraSurfaceView cameraSurfaceView) {
+    public DreamCameraController(Activity mActivity,String mFileSavePath, CameraSurfaceView cameraSurfaceView) {
         this.mActivity = mActivity;
         this.mFileSavePath = mFileSavePath;
         this.cameraSurfaceView = cameraSurfaceView;
@@ -127,9 +136,44 @@ public class DreamCameraController implements IDreamCameraController {
         return 0;
     }
 
+    /**
+     * 设置camera 的 Parameters
+     */
+    private void setCameraParameter() {
+        Camera.Parameters parameters = mCamera.getParameters();
+        parameters.setPreviewSize(previewWidth, previewHeight);
+        parameters.setPictureSize(pictureWidth, pictureHeight);
+        parameters.setJpegQuality(100);
+        if (Build.VERSION.SDK_INT < 9) {
+            return;
+        }
+        List<String> supportedFocus = parameters.getSupportedFocusModes();
+        boolean isHave = supportedFocus == null ? false :
+                supportedFocus.indexOf(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO) >= 0;
+        if (isHave) {
+            parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
+        }
+        parameters.setFlashMode(flashType == FLASH_MODE_ON ?
+                Camera.Parameters.FLASH_MODE_TORCH :
+                Camera.Parameters.FLASH_MODE_OFF);
+        mCamera.setParameters(parameters);
+    }
+
     @Override
     public void startCameraPreview(SurfaceHolder holder) {
-
+        mIsPreviewing = false;
+        setCameraParameter();
+        mCamera.setDisplayOrientation(90);
+        try {
+            mCamera.setPreviewDisplay(holder);
+        } catch (IOException e) {
+            destroyCamera();
+            return;
+        }
+        mCamera.startPreview();
+        mIsPreviewing = true;
+        cameraSurfaceView.setPreviewSize(previewHeight, previewWidth);
+        cameraSurfaceView.requestLayout();
     }
 
     @Override
