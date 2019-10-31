@@ -1,5 +1,6 @@
 package com.mengya.dreamcameralib.camera;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -27,10 +29,13 @@ public class DreamCameraPreviewFragment extends Fragment {
     private ImageView iv_take_photo_success;
     private PhotoView iv_show_result;
     private RelativeLayout fragment_top_container;
+    private ImageButton image_button_select;
 
     private String mFileSavePath;
 
+    public DreamCameraPreviewFragment(){}
 
+    @SuppressLint("ValidFragment")
     public DreamCameraPreviewFragment(String mFileSavePath) {
         this.mFileSavePath = mFileSavePath;
     }
@@ -47,17 +52,24 @@ public class DreamCameraPreviewFragment extends Fragment {
         fragment_iv_close = view.findViewById(R.id.fragment_iv_close);
         iv_take_photo_success = view.findViewById(R.id.iv_take_photo_success);
         iv_show_result = view.findViewById(R.id.iv_show_result);
+        image_button_select = view.findViewById(R.id.image_button_select);
         fragment_top_container = view.findViewById(R.id.fragment_top_container);
-        ((View) fragment_iv_close).setOnClickListener(new View.OnClickListener() {
+        fragment_iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((DreamCameraActivity) getActivity()).popBackStack();// 重新返回至预览的fragment
+                getActivity().finish();// 重新返回至预览的fragment
             }
         });
-        ((View) iv_take_photo_success).setOnClickListener(new View.OnClickListener() {
+        iv_take_photo_success.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 selectPhoto();
+            }
+        });
+        image_button_select.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((DreamCameraActivity) getActivity()).popBackStack();// 重新返回至预览的fragment
             }
         });
         showImage();
