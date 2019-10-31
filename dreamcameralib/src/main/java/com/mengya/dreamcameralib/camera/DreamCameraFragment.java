@@ -44,7 +44,7 @@ public class DreamCameraFragment extends Fragment implements DreamCameraCallback
 
     private String mFileSavePath;
     private CameraSurfaceView mCameraSurfaceView;
-    private ImageView fragment_take_photo;
+    private ImageView image_button_take_photo;
     private RotateAnimation rotateAnimation;
     private RelativeLayout fragment_top_container;
 
@@ -63,15 +63,15 @@ public class DreamCameraFragment extends Fragment implements DreamCameraCallback
 
     private void initViews(View view) {
         mCameraSurfaceView = view.findViewById(R.id.fragment_camera_surface_view);
-        fragment_take_photo = view.findViewById(R.id.fragment_take_photo);
+        image_button_take_photo = view.findViewById(R.id.image_button_take_photo);
         fragment_top_container = view.findViewById(R.id.fragment_top_container);
-        fragment_take_photo.setOnClickListener(new View.OnClickListener() {
+        image_button_take_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mDreamCameraController.takePhoto();
             }
         });
-        startRotateSelf(fragment_take_photo);
+        startRotateSelf(image_button_take_photo);
         fragment_top_container.setPadding(0, CommonUtils.getStatusBarHeight(getActivity()), 0, 0);
     }
 
