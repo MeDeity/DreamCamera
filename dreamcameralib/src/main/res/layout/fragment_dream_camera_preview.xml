@@ -5,6 +5,12 @@
     android:background="@color/bg_camera"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <ImageView
+        android:id="@+id/iv_show_result"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_luzhi_wancheng"/>
+
     <RelativeLayout
         android:id="@+id/fragment_top_container"
         android:layout_width="match_parent"

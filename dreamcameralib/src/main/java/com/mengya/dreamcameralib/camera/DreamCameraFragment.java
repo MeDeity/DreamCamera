@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import com.mengya.dreamcameralib.R;
 import com.mengya.dreamcameralib.camera.callback.DreamCameraCallback;
 import com.mengya.dreamcameralib.camera.controller.DreamCameraController;
+import com.mengya.dreamcameralib.camera.utils.CommonUtils;
 import com.mengya.dreamcameralib.camera.widget.CameraSurfaceView;
 
 import java.io.File;
@@ -104,11 +105,11 @@ public class DreamCameraFragment extends Fragment implements DreamCameraCallback
     /**
      * 打开预览的fragment进行预览  照片/ 视频
      */
-    private void startPreview() {
+    private void startPreview(String absolutePath) {
         getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.layout_dream_camera,
-                        new DreamCameraPreviewFragment(mFileSavePath))
+                        new DreamCameraPreviewFragment(absolutePath))
                 .addToBackStack(null)
                 .commit();
     }
@@ -128,12 +129,12 @@ public class DreamCameraFragment extends Fragment implements DreamCameraCallback
                             return !(TextUtils.isEmpty(path) || path.toLowerCase().endsWith(".gif"));
                         }
                     })
-//                    .setRenameListener(new OnRenameListener() {
-//                        @Override
-//                        public String rename(String filePath) {
-//                            return RecordVideoUtils.getUUID() + ".jpg";
-//                        }
-//                    })
+                    .setRenameListener(new OnRenameListener() {
+                        @Override
+                        public String rename(String filePath) {
+                            return CommonUtils.getUUID() + ".jpg";
+                        }
+                    })
                     .setCompressListener(new OnCompressListener() {
                         ProgressDialog dialog;
 
@@ -145,14 +146,14 @@ public class DreamCameraFragment extends Fragment implements DreamCameraCallback
                         @Override
                         public void onSuccess(File file) {
                             if (dialog != null) dialog.dismiss();
-                            startPreview();//切换fragment 预览刚刚的拍照//VideoPlayFragment.FILE_TYPE_PHOTO, file.getAbsolutePath()
+                            startPreview(file.getAbsolutePath());//切换fragment 预览刚刚的拍照//VideoPlayFragment.FILE_TYPE_PHOTO, file.getAbsolutePath()
                             if (photo.exists()) photo.delete();
                         }
 
                         @Override
                         public void onError(Throwable e) {
                             if (dialog != null) dialog.dismiss();
-                            startPreview();// 如果压缩失败  直接使用原图 //VideoPlayFragment.FILE_TYPE_PHOTO, photo.getAbsolutePath()
+                            startPreview(photo.getAbsolutePath());// 如果压缩失败  直接使用原图 //VideoPlayFragment.FILE_TYPE_PHOTO, photo.getAbsolutePath()
                         }
                     })
                     .launch();

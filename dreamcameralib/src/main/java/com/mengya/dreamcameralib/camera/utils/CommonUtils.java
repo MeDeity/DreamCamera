@@ -12,6 +12,7 @@ import com.mengya.dreamcameralib.camera.callback.TakePhotoCallback;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.UUID;
 
 /**
  * 工具类
@@ -20,6 +21,11 @@ import java.io.FileOutputStream;
 
 public class CommonUtils {
 
+    public static String getUUID() {
+        String uuid = UUID.randomUUID().toString();
+        uuid = uuid.replaceAll("-", "").toUpperCase();
+        return uuid;
+    }
     //设置Activity 全屏
     public static void configFullScreen(Activity activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

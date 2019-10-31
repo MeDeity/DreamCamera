@@ -1,6 +1,9 @@
 package com.mengya.dreamcameralib.camera;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,6 +22,7 @@ import java.io.File;
 public class DreamCameraPreviewFragment extends Fragment {
     private ImageView fragment_iv_close;
     private ImageView iv_take_photo_success;
+    private ImageView iv_show_result;
 
     private String mFileSavePath;
 
@@ -38,6 +42,7 @@ public class DreamCameraPreviewFragment extends Fragment {
     private void initViews(View view){
         fragment_iv_close = view.findViewById(R.id.fragment_iv_close);
         iv_take_photo_success = view.findViewById(R.id.iv_take_photo_success);
+        iv_show_result = view.findViewById(R.id.iv_show_result);
         ((View) fragment_iv_close).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,6 +55,16 @@ public class DreamCameraPreviewFragment extends Fragment {
                 selectPhoto();
             }
         });
+        showImage();
+    }
+
+    private void showImage(){
+        try {
+            Bitmap bitmap = BitmapFactory.decodeFile(mFileSavePath);
+            iv_show_result.setImageBitmap(bitmap);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     private void selectPhoto(){
