@@ -1,6 +1,7 @@
 package com.mengya.dreamcameralib.camera.utils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
@@ -21,11 +22,27 @@ import java.util.UUID;
 
 public class CommonUtils {
 
+    /**
+     * 获取uuid
+     */
     public static String getUUID() {
         String uuid = UUID.randomUUID().toString();
         uuid = uuid.replaceAll("-", "").toUpperCase();
         return uuid;
     }
+
+
+    /**
+     * 获取状态栏高度
+     * @param context context 上下文
+     * @return 状态栏高度px
+     */
+    public static int getStatusBarHeight(Context context) {
+        // 获得状态栏高度
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        return context.getResources().getDimensionPixelSize(resourceId);
+    }
+
     //设置Activity 全屏
     public static void configFullScreen(Activity activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +18,7 @@ import androidx.fragment.app.Fragment;
 
 import com.github.chrisbanes.photoview.PhotoView;
 import com.mengya.dreamcameralib.R;
+import com.mengya.dreamcameralib.camera.utils.CommonUtils;
 
 import java.io.File;
 
@@ -24,6 +26,7 @@ public class DreamCameraPreviewFragment extends Fragment {
     private ImageView fragment_iv_close;
     private ImageView iv_take_photo_success;
     private PhotoView iv_show_result;
+    private RelativeLayout fragment_top_container;
 
     private String mFileSavePath;
 
@@ -44,6 +47,7 @@ public class DreamCameraPreviewFragment extends Fragment {
         fragment_iv_close = view.findViewById(R.id.fragment_iv_close);
         iv_take_photo_success = view.findViewById(R.id.iv_take_photo_success);
         iv_show_result = view.findViewById(R.id.iv_show_result);
+        fragment_top_container = view.findViewById(R.id.fragment_top_container);
         ((View) fragment_iv_close).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,6 +61,7 @@ public class DreamCameraPreviewFragment extends Fragment {
             }
         });
         showImage();
+        fragment_top_container.setPadding(0, CommonUtils.getStatusBarHeight(getActivity()), 0, 0);
     }
 
     private void showImage(){

@@ -12,6 +12,7 @@ import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -45,6 +46,7 @@ public class DreamCameraFragment extends Fragment implements DreamCameraCallback
     private CameraSurfaceView mCameraSurfaceView;
     private ImageView fragment_take_photo;
     private RotateAnimation rotateAnimation;
+    private RelativeLayout fragment_top_container;
 
     ///前置相机还是后置相机 0->后置相机 1->前置相机
     private int mode;
@@ -62,6 +64,7 @@ public class DreamCameraFragment extends Fragment implements DreamCameraCallback
     private void initViews(View view) {
         mCameraSurfaceView = view.findViewById(R.id.fragment_camera_surface_view);
         fragment_take_photo = view.findViewById(R.id.fragment_take_photo);
+        fragment_top_container = view.findViewById(R.id.fragment_top_container);
         fragment_take_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,6 +72,7 @@ public class DreamCameraFragment extends Fragment implements DreamCameraCallback
             }
         });
         startRotateSelf(fragment_take_photo);
+        fragment_top_container.setPadding(0, CommonUtils.getStatusBarHeight(getActivity()), 0, 0);
     }
 
     private void initParams() {
