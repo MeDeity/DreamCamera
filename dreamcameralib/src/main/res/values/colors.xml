@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="bg_camera" type="color">#333</item>
+    <item name="bg_camera_menu" type="color">#50707070</item>
 </resources>

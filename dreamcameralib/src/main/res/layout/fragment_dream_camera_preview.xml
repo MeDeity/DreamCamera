@@ -24,47 +24,44 @@
             android:layout_alignParentStart="true"
             android:layout_margin="16dp"
             android:padding="5dp"
-            android:src="@drawable/ic_arrow_back_black_24dp"
+            android:src="@drawable/ic_back"
             tools:ignore="ContentDescription" />
 
     </RelativeLayout>
 
     <!--底部布局-->
+    <!--底部布局-->
     <RelativeLayout
-        android:id="@+id/fragment_bottom_container"
+        android:id="@+id/recording_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
-        <ImageView
-            android:id="@+id/fragment_ic_left"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentLeft="true"
-            android:layout_margin="16dp"
-            android:padding="5dp"
-            android:src="@drawable/ic_arrow_back_black_24dp"
-            tools:ignore="ContentDescription" />
+        android:layout_height="125dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bg_menu"
+        android:elevation="4dp"
+        android:paddingBottom="12dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="12dp"
+        tools:ignore="UnusedAttribute">
 
-        <ImageView
+
+
+        <ImageButton
             android:id="@+id/iv_take_photo_success"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center_vertical|start"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:padding="5dp"
-            android:src="@drawable/ic_luzhi_wancheng"
-            tools:ignore="ContentDescription" />
+            android:background="@drawable/ic_take_success"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"/>
 
-        <ImageView
-            android:id="@+id/fragment_iv_switch"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
-            android:layout_gravity="center_vertical|start"
-            android:layout_margin="16dp"
-            android:src="@drawable/ic_arrow_back_black_24dp"
-            tools:ignore="ContentDescription" />
+        <ImageButton
+            android:id="@+id/image_button_select"
+            android:background="@drawable/ic_retry"
+            android:layout_width="35dp"
+            android:layout_height="30dp"
+            android:layout_centerInParent="true"
+            android:layout_marginEnd="50dp"
+            android:layout_toLeftOf="@+id/iv_take_photo_success"/>
+
     </RelativeLayout>
 
 </RelativeLayout>
