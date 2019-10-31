@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.mengya.dreamcameralib.R;
+import com.mengya.dreamcameralib.camera.data.Constants;
 import com.mengya.dreamcameralib.camera.listener.CameraOrientationListener;
 import com.mengya.dreamcameralib.camera.utils.CommonUtils;
 
@@ -38,7 +39,7 @@ public class DreamCameraActivity extends AppCompatActivity {
 
     private void initIntent() {
         Intent intent = getIntent();
-        mode = intent.getIntExtra(MODE, DreamCameraHelper.Mode.RECORD_MODE_PHOTO);
+        mode = intent.getIntExtra(MODE, Constants.Mode.RECORD_MODE_PHOTO);
         mFileSavePath = intent.getStringExtra(SAVE_PATH);
     }
 
@@ -61,7 +62,7 @@ public class DreamCameraActivity extends AppCompatActivity {
      */
     public void returnPhotoPath(String photoPath) {
         Intent data = new Intent();
-        data.putExtra(DreamCameraHelper.RESULT_DATA, photoPath);
+        data.putExtra(Constants.RESULT_DATA, photoPath);
         if (getParent() == null) {
             setResult(RESULT_OK, data);
         } else {

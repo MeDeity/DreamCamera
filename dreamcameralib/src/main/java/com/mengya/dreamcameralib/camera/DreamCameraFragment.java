@@ -108,7 +108,7 @@ public class DreamCameraFragment extends Fragment implements DreamCameraCallback
         getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.layout_dream_camera,
-                        new DreamCameraPreviewFragment())
+                        new DreamCameraPreviewFragment(mFileSavePath))
                 .addToBackStack(null)
                 .commit();
     }

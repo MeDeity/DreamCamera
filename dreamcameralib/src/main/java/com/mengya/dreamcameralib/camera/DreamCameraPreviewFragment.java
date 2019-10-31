@@ -20,7 +20,12 @@ public class DreamCameraPreviewFragment extends Fragment {
     private ImageView fragment_iv_close;
     private ImageView iv_take_photo_success;
 
-    private String mFilePath;
+    private String mFileSavePath;
+
+
+    public DreamCameraPreviewFragment(String mFileSavePath) {
+        this.mFileSavePath = mFileSavePath;
+    }
 
     @Nullable
     @Override
@@ -48,14 +53,12 @@ public class DreamCameraPreviewFragment extends Fragment {
     }
 
     private void selectPhoto(){
-
         DreamCameraActivity activity = (DreamCameraActivity) getActivity();
-
         Intent mediaScannerIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        Uri fileContentUri = Uri.fromFile(new File(mFilePath));
+        Uri fileContentUri = Uri.fromFile(new File(mFileSavePath));
         mediaScannerIntent.setData(fileContentUri);
         activity.sendBroadcast(mediaScannerIntent);
-        activity.returnPhotoPath(mFilePath);
+        activity.returnPhotoPath(mFileSavePath);
     }
 
 

@@ -13,11 +13,7 @@ import com.mengya.dreamcameralib.R;
  * create by fengwenhua at 2019-10-29 15:36:24
  */
 public class DreamCameraHelper {
-    public static final String RESULT_DATA = "RESULT_DATA";
 
-    public interface Mode {
-        int RECORD_MODE_PHOTO = 0;
-    }
 
     private static void lauch(Activity activity,int requestCode,String mode,String mFileSavePath){
         Intent intent = new Intent(activity, DreamCameraActivity.class);
