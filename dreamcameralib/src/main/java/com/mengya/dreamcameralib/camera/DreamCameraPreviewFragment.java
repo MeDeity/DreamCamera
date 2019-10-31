@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.github.chrisbanes.photoview.PhotoView;
 import com.mengya.dreamcameralib.R;
 
 import java.io.File;
@@ -22,7 +23,7 @@ import java.io.File;
 public class DreamCameraPreviewFragment extends Fragment {
     private ImageView fragment_iv_close;
     private ImageView iv_take_photo_success;
-    private ImageView iv_show_result;
+    private PhotoView iv_show_result;
 
     private String mFileSavePath;
 
