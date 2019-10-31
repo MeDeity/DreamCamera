@@ -13,16 +13,23 @@ import com.mengya.dreamcameralib.R;
  * create by fengwenhua at 2019-10-29 15:36:24
  */
 public class DreamCameraHelper {
+    public static final String RESULT_DATA = "RESULT_DATA";
 
-    private static void lauch(Activity activity,int requestCode){
+    public interface Mode {
+        int RECORD_MODE_PHOTO = 0;
+    }
+
+    private static void lauch(Activity activity,int requestCode,String mode,String mFileSavePath){
         Intent intent = new Intent(activity, DreamCameraActivity.class);
+        intent.putExtra(DreamCameraActivity.MODE, mode);
+        intent.putExtra(DreamCameraActivity.SAVE_PATH, mFileSavePath);
         ActivityOptionsCompat compat = ActivityOptionsCompat.makeCustomAnimation(activity, R.anim.take_photo_anim_up_in, R.anim.take_photo_anim_up_out);
         ActivityCompat.startActivityForResult(activity, intent, requestCode, compat.toBundle());
     }
 
     ///拍照入口
-    public static void startTakePhoto(Activity activity, int requestCode, String savePath) {
-        lauch(activity, requestCode);
+    public static void startTakePhoto(Activity activity, int requestCode,String mode,String mFileSavePath) {
+        lauch(activity, requestCode,mode,mFileSavePath);
     }
 
 
