@@ -7,6 +7,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -36,7 +39,7 @@ public class DreamCameraFragment extends Fragment implements DreamCameraCallback
     private String mFileSavePath = "test";
     private CameraSurfaceView mCameraSurfaceView;
     private ImageView fragment_take_photo;
-
+    private RotateAnimation rotateAnimation;
 
     ///前置相机还是后置相机 0->后置相机 1->前置相机
     private int mode;
@@ -56,6 +59,7 @@ public class DreamCameraFragment extends Fragment implements DreamCameraCallback
                 mDreamCameraController.takePhoto();
             }
         });
+        startRotateSelf(fragment_take_photo);
     }
 
     private void initParams() {
@@ -72,6 +76,20 @@ public class DreamCameraFragment extends Fragment implements DreamCameraCallback
         initParams();
 //        startPreview();
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+    }
+
+    private void startRotateSelf(View view){
+        RotateAnimation rotateAnimation = new RotateAnimation(0,360, Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
+        rotateAnimation.setInterpolator(new LinearInterpolator());
+        rotateAnimation.setDuration(4000);
+        rotateAnimation.setRepeatCount(Animation.INFINITE);
+        view.startAnimation(rotateAnimation);
     }
 
     /**
