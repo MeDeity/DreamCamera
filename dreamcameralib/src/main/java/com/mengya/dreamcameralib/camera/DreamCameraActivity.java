@@ -29,12 +29,19 @@ public class DreamCameraActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dream_camera);
         initIntent();
+        initOrientationListener();
         CommonUtils.configFullScreen(DreamCameraActivity.this);//全屏模式
         if(null==savedInstanceState){
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.layout_dream_camera,DreamCameraFragment.getInstance(1,mFileSavePath))
                     .commit();
         }
+    }
+
+    //图片旋转矫正
+    private void initOrientationListener() {
+        orientationListener = new CameraOrientationListener(this);
+        orientationListener.enable();
     }
 
     private void initIntent() {
