@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.mengya.dreamcameralib.R;
 import com.mengya.dreamcameralib.camera.callback.DreamCameraCallback;
 import com.mengya.dreamcameralib.camera.controller.DreamCameraController;
@@ -46,6 +47,7 @@ public class DreamCameraFragment extends Fragment implements DreamCameraCallback
     private CameraSurfaceView mCameraSurfaceView;
     private ImageView image_button_take_photo;
     private ImageView fragment_iv_close;
+    private ImageView fragment_iv_focus;
     private RotateAnimation rotateAnimation;
     private RelativeLayout fragment_top_container;
 
@@ -67,6 +69,8 @@ public class DreamCameraFragment extends Fragment implements DreamCameraCallback
         image_button_take_photo = view.findViewById(R.id.image_button_take_photo);
         fragment_top_container = view.findViewById(R.id.fragment_top_container);
         fragment_iv_close = view.findViewById(R.id.fragment_iv_close);
+        fragment_iv_focus = view.findViewById(R.id.fragment_iv_focus);
+        Glide.with(this).asGif().load(R.drawable.ic_focus).into(fragment_iv_focus);
         image_button_take_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
