@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.hardware.Camera;
 import android.os.Build;
 import android.view.View;
 import android.view.Window;
@@ -13,6 +14,9 @@ import com.mengya.dreamcameralib.camera.callback.TakePhotoCallback;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -76,5 +80,68 @@ public class CommonUtils {
         }
     }
 
+    private static class NumInverted implements Comparator<Integer> {
+        @Override
+        public int compare(Integer integer, Integer t1) {
+            return t1 - integer;
+        }
+    }
+
+    public static final List<Integer> getSupportedPreviewFrameRates(Camera camera) {
+        List<Integer> supportedPreviewFrameRates = camera.getParameters().getSupportedPreviewFrameRates();
+        Collections.sort(supportedPreviewFrameRates, new NumInverted());
+        return supportedPreviewFrameRates;
+    }
+
+    /**
+     * 预览的比较类   正序  从小到大
+     */
+    private static class PreviewSizeComparator implements Comparator<Camera.Size> {
+        @Override
+        public int compare(Camera.Size lhs, Camera.Size rhs) {
+            if (lhs.height != rhs.height) {
+                return lhs.height - rhs.height;
+            }else {
+                return lhs.width - rhs.width;
+            }
+        }
+    }
+
+    /**
+     * 获取手机摄像头支持预览的尺寸集合
+     */
+    public static List<Camera.Size> getSupportedPreviewSizes(Camera camera) {
+        Camera.Parameters parameters = camera.getParameters();
+        List<Camera.Size> previewSizes = parameters.getSupportedPreviewSizes();
+        Collections.sort(previewSizes, new CommonUtils.PreviewSizeComparator());
+        return previewSizes;
+    }
+
+    /**
+     * 拍摄图片的比较类 倒序 从大到小
+     */
+    private static class PictureSizeComparator implements Comparator<Camera.Size> {
+        @Override
+        public int compare(Camera.Size lhs, Camera.Size rhs) {
+            if (lhs.height != rhs.height) {
+                return rhs.height - lhs.height;
+            }else {
+                return rhs.width - lhs.width;
+            }
+        }
+    }
+
+    /**
+     * 获取手机摄像头支持拍摄照片像素的集合
+     *
+     * @param camera
+     * @return
+     */
+    public static List<Camera.Size> getSupportedPictureSizes(Camera camera) {
+        Camera.Parameters parameters = camera.getParameters();
+        List<Camera.Size> previewSizes = parameters.getSupportedPictureSizes();
+        Collections.sort(previewSizes, new CommonUtils.PictureSizeComparator());
+        return previewSizes;
+    }
 
 }

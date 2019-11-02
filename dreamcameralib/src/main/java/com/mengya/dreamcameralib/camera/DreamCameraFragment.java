@@ -47,6 +47,7 @@ public class DreamCameraFragment extends Fragment implements DreamCameraCallback
     private CameraSurfaceView mCameraSurfaceView;
     private ImageView image_button_take_photo;
     private ImageView fragment_iv_close;
+    private ImageView image_button_switch;
     private ImageView fragment_iv_focus;
     private RotateAnimation rotateAnimation;
     private RelativeLayout fragment_top_container;
@@ -69,12 +70,19 @@ public class DreamCameraFragment extends Fragment implements DreamCameraCallback
         image_button_take_photo = view.findViewById(R.id.image_button_take_photo);
         fragment_top_container = view.findViewById(R.id.fragment_top_container);
         fragment_iv_close = view.findViewById(R.id.fragment_iv_close);
+        image_button_switch = view.findViewById(R.id.image_button_switch);
         fragment_iv_focus = view.findViewById(R.id.fragment_iv_focus);
         Glide.with(this).asGif().load(R.drawable.ic_focus).into(fragment_iv_focus);
         image_button_take_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mDreamCameraController.takePhoto();
+            }
+        });
+        image_button_switch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDreamCameraController.changeCameraFacing(image_button_switch);
             }
         });
         fragment_iv_close.setOnClickListener(new View.OnClickListener() {

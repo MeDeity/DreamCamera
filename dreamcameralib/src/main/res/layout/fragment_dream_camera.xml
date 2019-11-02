@@ -14,11 +14,11 @@
 
     <ImageView
         android:id="@+id/fragment_iv_focus"
-        android:layout_width="240dp"
-        android:layout_height="240dp"
-        android:layout_margin="16dp"
+        android:layout_width="450dp"
+        android:layout_height="450dp"
         android:padding="5dp"
-        android:layout_centerInParent="true"
+        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true"
         tools:ignore="ContentDescription" />
 
     <RelativeLayout
