@@ -3,6 +3,8 @@ package com.mengya.dreamcameralib.camera;
 import android.content.Intent;
 import android.hardware.Camera;
 import android.os.Bundle;
+import android.os.Environment;
+import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +13,8 @@ import com.mengya.dreamcameralib.R;
 import com.mengya.dreamcameralib.camera.data.Constants;
 import com.mengya.dreamcameralib.camera.listener.CameraOrientationListener;
 import com.mengya.dreamcameralib.camera.utils.CommonUtils;
+
+import java.io.File;
 
 /**
  * 自定义相机类
@@ -48,6 +52,9 @@ public class DreamCameraActivity extends AppCompatActivity {
         Intent intent = getIntent();
         camerMmode = intent.getIntExtra(Constants.KEY_MODE, Camera.CameraInfo.CAMERA_FACING_BACK);
         mFileSavePath = intent.getStringExtra(Constants.KEY_SAVE_PATH);
+        if(TextUtils.isEmpty(mFileSavePath)){
+            mFileSavePath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + getPackageName();
+        }
     }
 
     public int getOrientation() {
