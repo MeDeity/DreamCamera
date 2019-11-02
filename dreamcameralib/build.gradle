@@ -35,4 +35,6 @@ dependencies {
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
     implementation 'com.github.bumptech.glide:glide:4.10.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
+    //屏幕适配方案
+    implementation 'me.jessyan:autosize:1.1.2'
 }
