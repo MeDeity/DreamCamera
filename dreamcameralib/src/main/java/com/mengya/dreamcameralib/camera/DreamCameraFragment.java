@@ -1,18 +1,22 @@
 package com.mengya.dreamcameralib.camera;
 
+import android.annotation.TargetApi;
 import android.app.ProgressDialog;
+import android.content.ContentUris;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,12 +36,15 @@ import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
 import top.zibin.luban.OnRenameListener;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * 自定义相机Fragment
  * create by fengwenhua at 2019-10-29 14:50:41
  */
 public class DreamCameraFragment extends Fragment implements DreamCameraCallback {
-
+    ///选择照片请求码
+    private static final int SELECT_PHOTO_ACTION = 999;
     ///前置相机还是后置相机
     public static final String MODE = "MODE";
     //保存地址
@@ -49,14 +56,14 @@ public class DreamCameraFragment extends Fragment implements DreamCameraCallback
     private ImageView fragment_iv_close;
     private ImageView image_button_switch;
     private ImageView fragment_iv_focus;
-    private RotateAnimation rotateAnimation;
+    private ImageView image_button_select;
     private RelativeLayout fragment_top_container;
 
     ///前置相机还是后置相机 0->后置相机 1->前置相机
     private int mode;
     private DreamCameraController mDreamCameraController;
 
-    public static DreamCameraFragment getInstance(int mode,String mFileSavePath) {
+    public static DreamCameraFragment getInstance(int mode, String mFileSavePath) {
         Bundle args = new Bundle();
         args.putInt(MODE, mode);
         args.putString(SAVE_PATH, mFileSavePath);
@@ -72,7 +79,14 @@ public class DreamCameraFragment extends Fragment implements DreamCameraCallback
         fragment_iv_close = view.findViewById(R.id.fragment_iv_close);
         image_button_switch = view.findViewById(R.id.image_button_switch);
         fragment_iv_focus = view.findViewById(R.id.fragment_iv_focus);
+        image_button_select = view.findViewById(R.id.image_button_select);
         Glide.with(this).asGif().load(R.drawable.ic_focus).into(fragment_iv_focus);
+        image_button_select.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectPhoto();
+            }
+        });
         image_button_take_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,12 +105,85 @@ public class DreamCameraFragment extends Fragment implements DreamCameraCallback
                 getActivity().finish();
             }
         });
-        startRotateSelf(image_button_take_photo);
         fragment_top_container.setPadding(0, CommonUtils.getStatusBarHeight(getActivity()), 0, 0);
     }
 
     private void initParams() {
         mDreamCameraController = new DreamCameraController(getActivity(), mFileSavePath, mCameraSurfaceView, this);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        switch (requestCode) {
+            case SELECT_PHOTO_ACTION:
+                if (resultCode == RESULT_OK && null != data) {
+                    String mFilePath;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        mFilePath = handleImageOnKitkat(data);
+                    } else {
+                        mFilePath = handleImageBeforeKitkat(data);
+                    }
+                    Toast.makeText(getActivity(),mFilePath,Toast.LENGTH_LONG).show();
+                    if(null!=mFilePath){
+                        startPreview(mFilePath);
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @TargetApi(19)
+    private String handleImageOnKitkat(Intent data) {
+        String imagePath = null;
+        Uri uri = data.getData();
+        if (DocumentsContract.isDocumentUri(getActivity(), uri)) {
+            //如果是document类型的uri，则通过document id处理
+            String docId = DocumentsContract.getDocumentId(uri);
+            if ("com.android.providers.media.documents".equals(uri.getAuthority())) {
+                String id = docId.split(":")[1];
+                String selection = MediaStore.Images.Media._ID + "=" + id;
+                imagePath = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection);
+            } else if ("com.android.providers.downloads.documents".equals(uri.getAuthority())) {
+                Uri contentUri = ContentUris.withAppendedId(Uri.parse("content:" +
+                        "//downloads/public_downloads"), Long.valueOf(docId));
+                imagePath = getImagePath(contentUri, null);
+            }
+        } else if ("content".equalsIgnoreCase(uri.getScheme())) {
+            //如果是content类型的uri，则使用普通方式处理
+            imagePath = getImagePath(uri, null);
+        } else if ("file".equalsIgnoreCase(uri.getScheme())) {
+            //如果是File类型的uri，直接获取图片路径即可
+            imagePath = uri.getPath();
+        }
+        return imagePath;
+    }
+
+    private String handleImageBeforeKitkat(Intent data) {
+        Uri uri = data.getData();
+        String imagePath = getImagePath(uri, null);
+        return imagePath;
+    }
+
+    private String getImagePath(Uri uri, String selection) {
+        String path = null;
+        //通过uri和selection来获取真实的图片路径
+        Cursor cursor = getActivity().getContentResolver().query(uri, null, selection, null, null);
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+            }
+            cursor.close();
+        }
+        return path;
+    }
+
+    private void selectPhoto() {
+        Intent albumIntent = new Intent(Intent.ACTION_PICK, null);
+        albumIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+        startActivityForResult(albumIntent, SELECT_PHOTO_ACTION);
     }
 
     @Nullable
@@ -118,14 +205,6 @@ public class DreamCameraFragment extends Fragment implements DreamCameraCallback
 
     }
 
-    private void startRotateSelf(View view){
-        RotateAnimation rotateAnimation = new RotateAnimation(0,360, Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
-        rotateAnimation.setInterpolator(new LinearInterpolator());
-        rotateAnimation.setDuration(4000);
-        rotateAnimation.setRepeatCount(Animation.INFINITE);
-        view.startAnimation(rotateAnimation);
-    }
-
     /**
      * 打开预览的fragment进行预览  照片/ 视频
      */
@@ -137,7 +216,6 @@ public class DreamCameraFragment extends Fragment implements DreamCameraCallback
                 .addToBackStack(null)
                 .commit();
     }
-
 
 
     @Override
