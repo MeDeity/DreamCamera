@@ -91,7 +91,7 @@ public class DreamCameraController implements IDreamCameraController {
         }
     };
 
-    public DreamCameraController(Activity mActivity, String mFileSavePath, CameraSurfaceView cameraSurfaceView, DreamCameraCallback callback) {
+    public DreamCameraController(Activity mActivity, String mFileSavePath, CameraSurfaceView cameraSurfaceView,int cameraId,DreamCameraCallback callback) {
         this.mActivity = mActivity;
         this.mFileSavePath = mFileSavePath;
         this.cameraSurfaceView = cameraSurfaceView;
@@ -106,9 +106,13 @@ public class DreamCameraController implements IDreamCameraController {
         //这里设置当摄像头数量大于1的时候就直接设置后摄像头  否则就是前摄像头
         if (Build.VERSION.SDK_INT > 8) {
             if (Camera.getNumberOfCameras() > 1) {
-                mCameraId = Camera.CameraInfo.CAMERA_FACING_BACK;
+                if(cameraId==Camera.CameraInfo.CAMERA_FACING_FRONT||cameraId == Camera.CameraInfo.CAMERA_FACING_BACK){
+                    mCameraId = cameraId;
+                }else {
+                    mCameraId = Camera.CameraInfo.CAMERA_FACING_BACK;
+                }
             } else {
-                mCameraId = Camera.CameraInfo.CAMERA_FACING_FRONT;
+                mCameraId = Camera.CameraInfo.CAMERA_FACING_BACK;
             }
         }
     }

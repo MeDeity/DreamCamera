@@ -11,8 +11,16 @@ public class Constants {
     public static final String RESULT_DATA = "RESULT_DATA";
 
 
-    //便于后期扩展,目前仅支持拍照
-    public interface Mode {
-        int RECORD_MODE_PHOTO = 0;
-    }
+//    //便于后期扩展,目前仅支持拍照
+//    public interface Mode {
+//        int CAMERA_FACING_BACK = 0;
+//        int CAMERA_FACING_FRONT = 1;
+//    }
+
+
+    ///INTENT KEY
+    //前置摄像头还是后置摄像头
+    public static final String KEY_MODE = "KEY_MODE";
+    //拍照文件保存地址
+    public static final String KEY_SAVE_PATH = "KEY_SAVE_PATH";
 }

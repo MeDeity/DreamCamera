@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
+import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import com.bumptech.glide.Glide;
 import com.mengya.dreamcameralib.R;
 import com.mengya.dreamcameralib.camera.callback.DreamCameraCallback;
 import com.mengya.dreamcameralib.camera.controller.DreamCameraController;
+import com.mengya.dreamcameralib.camera.data.Constants;
 import com.mengya.dreamcameralib.camera.utils.CommonUtils;
 import com.mengya.dreamcameralib.camera.widget.CameraSurfaceView;
 
@@ -45,10 +47,6 @@ import static android.app.Activity.RESULT_OK;
 public class DreamCameraFragment extends Fragment implements DreamCameraCallback {
     ///选择照片请求码
     private static final int SELECT_PHOTO_ACTION = 999;
-    ///前置相机还是后置相机
-    public static final String MODE = "MODE";
-    //保存地址
-    public static final String SAVE_PATH = "SAVE_PATH";
 
     private String mFileSavePath;
     private CameraSurfaceView mCameraSurfaceView;
@@ -60,13 +58,13 @@ public class DreamCameraFragment extends Fragment implements DreamCameraCallback
     private RelativeLayout fragment_top_container;
 
     ///前置相机还是后置相机 0->后置相机 1->前置相机
-    private int mode;
+    private int cameraMode;
     private DreamCameraController mDreamCameraController;
 
-    public static DreamCameraFragment getInstance(int mode, String mFileSavePath) {
+    public static DreamCameraFragment getInstance(int cameraMode, String mFileSavePath) {
         Bundle args = new Bundle();
-        args.putInt(MODE, mode);
-        args.putString(SAVE_PATH, mFileSavePath);
+        args.putInt(Constants.KEY_MODE, cameraMode);
+        args.putString(Constants.KEY_SAVE_PATH, mFileSavePath);
         DreamCameraFragment fragment = new DreamCameraFragment();
         fragment.setArguments(args);
         return fragment;
@@ -109,7 +107,7 @@ public class DreamCameraFragment extends Fragment implements DreamCameraCallback
     }
 
     private void initParams() {
-        mDreamCameraController = new DreamCameraController(getActivity(), mFileSavePath, mCameraSurfaceView, this);
+        mDreamCameraController = new DreamCameraController(getActivity(), mFileSavePath, mCameraSurfaceView,cameraMode, this);
     }
 
     @Override
@@ -190,12 +188,11 @@ public class DreamCameraFragment extends Fragment implements DreamCameraCallback
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Bundle bundle = getArguments();
-        mode = bundle.getInt(MODE, 0);
-        mFileSavePath = bundle.getString(SAVE_PATH);
+        cameraMode = bundle.getInt(Constants.KEY_MODE, Camera.CameraInfo.CAMERA_FACING_BACK);
+        mFileSavePath = bundle.getString(Constants.KEY_SAVE_PATH);
         View view = inflater.inflate(R.layout.fragment_dream_camera, container, false);
         initViews(view);
         initParams();
-//        startPreview();
         return view;
     }
 
