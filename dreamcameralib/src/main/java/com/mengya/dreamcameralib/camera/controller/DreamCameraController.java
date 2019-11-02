@@ -157,7 +157,7 @@ public class DreamCameraController implements IDreamCameraController {
 
     @Override
     public int getCameraFacing() {
-        return 0;
+        return mCameraId;
     }
 
     /**
