@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.mengya.dreamcameralib.R;
 import com.mengya.dreamcameralib.camera.utils.CommonUtils;
@@ -72,17 +73,8 @@ public class DreamCameraPreviewFragment extends Fragment {
                 ((DreamCameraActivity) getActivity()).popBackStack();// 重新返回至预览的fragment
             }
         });
-        showImage();
+        Glide.with(getActivity()).load(mFileSavePath).into(iv_show_result);
         fragment_top_container.setPadding(0, CommonUtils.getStatusBarHeight(getActivity()), 0, 0);
-    }
-
-    private void showImage(){
-        try {
-            Bitmap bitmap = BitmapFactory.decodeFile(mFileSavePath);
-            iv_show_result.setImageBitmap(bitmap);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
     }
 
     private void selectPhoto(){

@@ -12,6 +12,15 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true" />
 
+    <ImageView
+        android:id="@+id/fragment_iv_focus"
+        android:layout_width="450dp"
+        android:layout_height="450dp"
+        android:padding="5dp"
+        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true"
+        tools:ignore="ContentDescription" />
+
     <RelativeLayout
         android:id="@+id/fragment_top_container"
         android:layout_width="match_parent"

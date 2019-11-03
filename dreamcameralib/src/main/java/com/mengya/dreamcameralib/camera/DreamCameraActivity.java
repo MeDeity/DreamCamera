@@ -1,7 +1,10 @@
 package com.mengya.dreamcameralib.camera;
 
 import android.content.Intent;
+import android.hardware.Camera;
 import android.os.Bundle;
+import android.os.Environment;
+import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,15 +14,16 @@ import com.mengya.dreamcameralib.camera.data.Constants;
 import com.mengya.dreamcameralib.camera.listener.CameraOrientationListener;
 import com.mengya.dreamcameralib.camera.utils.CommonUtils;
 
+import java.io.File;
+
 /**
  * 自定义相机类
  * create by fengwenhua at 2019-10-29 12:58:30
  */
 public class DreamCameraActivity extends AppCompatActivity {
-    public static final String MODE = "MODE";
-    public static final String SAVE_PATH = "SAVE_PATH";
 
-    private int mode;
+    ///是前置摄像头还是后置摄像头
+    private int camerMmode;
     private String mFileSavePath;
 
     private CameraOrientationListener orientationListener;
@@ -33,7 +37,7 @@ public class DreamCameraActivity extends AppCompatActivity {
         CommonUtils.configFullScreen(DreamCameraActivity.this);//全屏模式
         if(null==savedInstanceState){
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.layout_dream_camera,DreamCameraFragment.getInstance(1,mFileSavePath))
+                    .replace(R.id.layout_dream_camera,DreamCameraFragment.getInstance(camerMmode,mFileSavePath))
                     .commit();
         }
     }
@@ -46,8 +50,11 @@ public class DreamCameraActivity extends AppCompatActivity {
 
     private void initIntent() {
         Intent intent = getIntent();
-        mode = intent.getIntExtra(MODE, Constants.Mode.RECORD_MODE_PHOTO);
-        mFileSavePath = intent.getStringExtra(SAVE_PATH);
+        camerMmode = intent.getIntExtra(Constants.KEY_MODE, Camera.CameraInfo.CAMERA_FACING_BACK);
+        mFileSavePath = intent.getStringExtra(Constants.KEY_SAVE_PATH);
+        if(TextUtils.isEmpty(mFileSavePath)){
+            mFileSavePath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + getPackageName();
+        }
     }
 
     public int getOrientation() {

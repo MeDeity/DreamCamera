@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DreamCameraHelper.startTakePhoto(MainActivity.this,
-                        Constants.DEFAULT_REQUEST_CODE,"", mFileSavePath);
+                        Constants.DEFAULT_REQUEST_CODE, Camera.CameraInfo.CAMERA_FACING_FRONT, mFileSavePath);
             }
         });
     }
