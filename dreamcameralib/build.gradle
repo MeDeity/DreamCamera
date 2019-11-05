@@ -40,10 +40,11 @@ dependencies {
 
 
 publish {
-    userOrg = 'mengya'
-    groupId = 'com.mengya'
-    artifactId = 'dream-camera'
-    publishVersion = '1.0.0'
+    userOrg = 'lastdeity'//bintray.com用户名
+    repoName = 'Android-lib'//默认的仓库名称
+    groupId = 'com.mengya'//jcenter上的路径
+    artifactId = 'dream-camera'//项目名称
+    publishVersion = '1.0.0'//版本号
     desc = 'a custom camera for android'
     website = 'https://github.com/MeDeity/DreamCamera'
 }
