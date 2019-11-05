@@ -121,7 +121,6 @@ public class DreamCameraFragment extends Fragment implements DreamCameraCallback
                     } else {
                         mFilePath = handleImageBeforeKitkat(data);
                     }
-                    Toast.makeText(getActivity(),mFilePath,Toast.LENGTH_LONG).show();
                     if(null!=mFilePath){
                         startPreview(mFilePath);
                     }
