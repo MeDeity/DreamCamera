@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">吖!相机</string>
+    <string name="permission_request">吖!相机需要请求开放相机权限</string>
 </resources>

@@ -1,7 +1,10 @@
 package com.mengya.dreamcamera;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import pub.devrel.easypermissions.AppSettingsDialog;
+import pub.devrel.easypermissions.EasyPermissions;
 
 import android.content.Intent;
 import android.hardware.Camera;
@@ -15,8 +18,9 @@ import com.mengya.dreamcameralib.camera.DreamCameraHelper;
 import com.mengya.dreamcameralib.camera.data.Constants;
 
 import java.io.File;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
     Button btn_take_photo;
     String mFileSavePath;
 
@@ -50,5 +54,26 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        //将请求结果传递EasyPermission库处理
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+        Toast.makeText(MainActivity.this,"申请成功,您可以正常使用相机了",Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
+        Toast.makeText(MainActivity.this,"请求失败",Toast.LENGTH_LONG).show();
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            new AppSettingsDialog.Builder(this).setTitle("我们需要相机权限")
+                    .setRationale(R.string.permission_request).build().show();
+        }
     }
 }
