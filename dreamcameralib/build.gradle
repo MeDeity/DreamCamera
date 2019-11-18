@@ -27,10 +27,10 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+//    implementation 'androidx.appcompat:appcompat:1.1.0'
+//    testImplementation 'junit:junit:4.12'
+//    androidTestImplementation 'androidx.test:runner:1.1.1'
+//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     implementation 'top.zibin:Luban:1.1.8'
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
     api 'pub.devrel:easypermissions:1.2.0'
@@ -44,7 +44,7 @@ publish {
     repoName = 'Android-lib'//默认的仓库名称
     groupId = 'com.mengya'//jcenter上的路径
     artifactId = 'dream-camera'//项目名称
-    publishVersion = '1.0.0'//版本号
+    publishVersion = '1.1.0'//版本号
     desc = 'a custom camera for android'
     website = 'https://github.com/MeDeity/DreamCamera'
 }
