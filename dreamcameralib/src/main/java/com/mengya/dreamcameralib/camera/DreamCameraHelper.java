@@ -3,12 +3,10 @@ package com.mengya.dreamcameralib.camera;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.app.ActivityOptionsCompat;
 import pub.devrel.easypermissions.AfterPermissionGranted;
-import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
 import com.mengya.dreamcameralib.R;
